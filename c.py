@@ -12,6 +12,9 @@ class Board(object):
     def get_winner(self):  # 1:win, 0:lost, None:unfinished
         raise NotImplementedError()
 
+    def check_by_special_rule(self):  # 1:lost, 0:None
+        raise NotImplementedError()
+
     def get_avail_moves(self):  # list of moves
         raise NotImplementedError()
 
@@ -131,13 +134,13 @@ class Node(object):
         ns = self._get_ns()
         qs = self._get_qs()
         sum_n_root = math.sqrt(sum(ns) + 1)
-        ucbs = [(qs[i] + edge.p * sum_n_root / (1 + ns[i]), i) for i, edge in enumerate(self.edges)]
+        ucbs = [(edge.s, qs[i] + edge.p * sum_n_root / (1 + ns[i]), i) for i, edge in enumerate(self.edges)]
         return ucbs
     
     def play_by_maximum_ucb(self):  # Selection
         ucbs = self._get_ucbs()
         ucbs.sort(reverse=True)
-        max_index = ucbs[0][1]
+        max_index = ucbs[0][2]
         return max_index
 
     def play_by_probability_n(self):  # Play
@@ -160,10 +163,12 @@ class Node(object):
 class Edge(object):
     def __init__(self, node_set, board, move, probability):
         self.move = move
-        self.child_node = node_set.get_node(board.take_action(move))
+        child_board = board.take_action(move)
+        self.child_node = node_set.get_node(child_board)
         self.n = 0
         self.w = 0.0
         self.p = probability
+        self.s = child_board.check_by_special_rule()
         return
 
     def add_value(self, v):
@@ -235,6 +240,22 @@ class SPBoard(Board):
 
     def get_winner(self):
         return self.winner
+
+    def check_by_special_rule(self):
+        if self.user == 0:
+            my, rival = self.up, self.down
+        else:
+            my, rival = self.down, self.up
+        pos = 1
+        while True:
+            if my[pos] < self.m:
+                return 0
+            if my[self.n * 2 - pos] > 0:
+                return 0
+            if rival[self.n * 2 - pos] > 0:
+                return 1
+            pos += 1
+        return 0
 
     def get_avail_moves(self):
         moves = []
