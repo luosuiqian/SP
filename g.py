@@ -293,9 +293,9 @@ def main():
             continue
         if key == 0:
             total_phase = 0
-            total_round = n * 2
+            total_round = n * m
             org_board = SPBoard(n, m)
-            total_select = n * 300
+            total_select = n * m * 150
             load_model = False
             while True:
                 total_phase += 1

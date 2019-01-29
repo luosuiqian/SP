@@ -32,6 +32,8 @@ def compete(org_board, num_thinking, feature_extractor, model):
             game_root = game_root.edges[move_index].child_node
         else:
             moves = game_root.board.get_avail_moves()
+            if game_root.is_leaf():
+                game_root.expand(node_set, feature_extractor, model)
             print("-1 : resign")
             for i, move in enumerate(moves):
                 print(str(i) + " : ", end="")
@@ -45,8 +47,6 @@ def compete(org_board, num_thinking, feature_extractor, model):
                 continue
             if move_index == -1:
                 break
-            if game_root.is_leaf():
-                game_root.expand(node_set, feature_extractor, model)
             game_root = game_root.edges[move_index].child_node
             print("")
     game_root.board.print_board(view_user)
@@ -74,7 +74,7 @@ def main():
         except ValueError:
             continue
         if key == 0:
-            num_thinking = n * 1000
+            num_thinking = n * m * 500
             feature_extractor = SPFeatureExtractor()
             compete(org_board, num_thinking, feature_extractor, model)
         if key == 1:
