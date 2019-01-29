@@ -277,7 +277,7 @@ def learn(phase, num_thread, r, org_board, total_select):
     process.terminate()
     
     print("phase: {0}, training finished".format(phase))
-    return p_kl_divergence_old > p_kl_divergence_new + 0.03
+    return p_kl_divergence_old > p_kl_divergence_new + 0.1
 
 
 def main():

@@ -242,6 +242,8 @@ class SPBoard(Board):
         return self.winner
 
     def check_by_special_rule(self):
+        if self.winner == 0.0:
+            return 1
         if self.user == 0:
             my, rival = self.up, self.down
         else:
