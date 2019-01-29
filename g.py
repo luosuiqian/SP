@@ -283,12 +283,7 @@ def learn(phase, num_thread, r, org_board, total_select):
 def main():
     n = 6
     m = 2
-    
-    total_select = n * 300
-    total_round = n * 2
     num_thread = 32
-    
-    org_board = SPBoard(n, m)
     
     while True:
         print("0-learn, 1-save model, 2-quit")
@@ -298,6 +293,9 @@ def main():
             continue
         if key == 0:
             total_phase = 0
+            total_round = n * 2
+            org_board = SPBoard(n, m)
+            total_select = n * 300
             load_model = False
             while True:
                 total_phase += 1

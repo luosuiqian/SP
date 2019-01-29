@@ -104,3 +104,16 @@ def play_by_probability_prior(self):  # Compete with model
         index += 1
     return index
 
+
+def func():
+    ns = game_root._get_ns()
+    ws = game_root._get_ws()
+    qs = game_root._get_qs()
+    ucbs = game_root._get_ucbs()
+    ps = [edge.p for edge in game_root.edges]
+    print("n:", ns)
+    print("w:", ws)
+    print("q:", qs)
+    print("ucb:", ucbs)
+    print("prior:", ps)
+    print("")

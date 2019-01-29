@@ -28,19 +28,6 @@ def compete(org_board, num_thinking, feature_extractor, model):
         if game_root.board.user != user:
             for _ in range(num_thinking):
                 mcst.select(node_set, game_root, feature_extractor, model)
-
-            ns = game_root._get_ns()
-            ws = game_root._get_ws()
-            qs = game_root._get_qs()
-            ucbs = game_root._get_ucbs()
-            ps = [edge.p for edge in game_root.edges]
-            print("n:", ns)
-            print("w:", ws)
-            print("q:", qs)
-            print("ucb:", ucbs)
-            print("prior:", ps)
-            print("")
-
             move_index = game_root.play_by_maximum_n()
             game_root = game_root.edges[move_index].child_node
         else:
@@ -75,8 +62,6 @@ def main():
     n = 6
     m = 2
     
-    num_thinking = n * 1000
-    
     org_board = SPBoard(n, m)
     num_feature = SPFeatureExtractor.get_num_feature(org_board)
     num_probability = SPFeatureExtractor.get_num_probability(org_board)
@@ -89,6 +74,7 @@ def main():
         except ValueError:
             continue
         if key == 0:
+            num_thinking = n * 1000
             feature_extractor = SPFeatureExtractor()
             compete(org_board, num_thinking, feature_extractor, model)
         if key == 1:
@@ -99,6 +85,7 @@ def main():
                 n, m = z
                 n = int(n)
                 m = int(m)
+
                 org_board = SPBoard(n, m)
                 num_feature = SPFeatureExtractor.get_num_feature(org_board)
                 num_probability = SPFeatureExtractor.get_num_probability(org_board)
