@@ -55,19 +55,20 @@ class DLModel(BaseModel):
         hypothesis_1 = tf.nn.softmax(tf.matmul(l3_1, w4_1) + b4_1)
         hypothesis_2 = tf.sigmoid(tf.matmul(l4_2, w5_2) + b5_2)
 
-        c = 1e-4
+        c1 = 1e-4
+        c2 = 1e-3
         cost1 = tf.reduce_mean(-p * tf.log(hypothesis_1 + 1e-8))
         cost2 = tf.reduce_mean(tf.square(y - hypothesis_2))
-        regularization = c * tf.nn.l2_loss(w1_1)\
-            + c * tf.nn.l2_loss(w1_2)\
-            + c * tf.nn.l2_loss(w2_1)\
-            + c * tf.nn.l2_loss(w2_2)\
-            + c * tf.nn.l2_loss(w3_1)\
-            + c * tf.nn.l2_loss(w3_2)\
-            + c * tf.nn.l2_loss(w4_1)\
-            + c * tf.nn.l2_loss(w4_2)\
-            + c * tf.nn.l2_loss(w5_1)\
-            + c * tf.nn.l2_loss(w5_2)
+        regularization = c1 * tf.nn.l2_loss(w1_1)\
+            + c2 * tf.nn.l2_loss(w1_2)\
+            + c1 * tf.nn.l2_loss(w2_1)\
+            + c2 * tf.nn.l2_loss(w2_2)\
+            + c1 * tf.nn.l2_loss(w3_1)\
+            + c2 * tf.nn.l2_loss(w3_2)\
+            + c1 * tf.nn.l2_loss(w4_1)\
+            + c2 * tf.nn.l2_loss(w4_2)\
+            + c1 * tf.nn.l2_loss(w5_1)\
+            + c2 * tf.nn.l2_loss(w5_2)
         cost = cost1 + cost2 + regularization
 
         optimizer = tf.train.AdamOptimizer(learning_rate=1e-3)
