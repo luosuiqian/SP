@@ -278,7 +278,7 @@ def learn(phase, num_thread, r, org_board, total_select):
     process.terminate()
     
     print("phase: {0}, training finished".format(phase))
-    return (p_kl_divergence_old >= 0.12) or (p_kl_divergence_new >= 0.06)
+    return (p_kl_divergence_old >= 0.15) or (p_kl_divergence_new >= 0.09)
 
 
 def main():
